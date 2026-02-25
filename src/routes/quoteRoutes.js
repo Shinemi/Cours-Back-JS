@@ -1,5 +1,5 @@
 import express from "express";
-import { getRandomQuote } from "../controllers/quoteControllers.js";
+import { createQuote, deleteQuote, getRandomQuote, updateQuote } from "../controllers/quoteControllers.js";
 
 const router = express.Router();
 //on va pouvoir gérer les routes
@@ -8,5 +8,9 @@ const router = express.Router();
 router.get("/", getRandomQuote)
 
 router.post("/", createQuote)
+
+router.delete("/:id", deleteQuote)
+
+router.put("/:id", updateQuote)
 
 export default router;

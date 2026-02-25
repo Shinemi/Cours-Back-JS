@@ -6,6 +6,10 @@ dotenv.config()
 
 const app =  express()
 
+//body parser 
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
+
 // On défini les Routes de l'API
 app.use('/api/quote' ,quoteRoutes)
 

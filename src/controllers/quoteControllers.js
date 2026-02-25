@@ -31,5 +31,53 @@ export const getRandomQuote = async (req, res) => {
 }
 
 export const createQuote = async (req, res) => {
-    console.log('création de quote')
+    try{
+        const { quote, author } = req.body
+        if(!quote || !author){
+            res.status(400)
+            throw new Error('veuillez entrer une citation et un auteur')
+        }
+
+        const quoteRegistered = await Quote.create({quote, author})
+        res.status(201).json(quoteRegistered)
+    } catch (error) {
+        console.error("erreur d'enregistement", error)
+        res.status(500).json({message: error.message})
+    }
+}
+
+export const deleteQuote = async (req, res) => {
+    try {
+        //on récup l'id des parametres de l'url
+        const quote = await Quote.findById(req.params.id)
+        if(!quote){
+            res.status(404)
+            throw new Error('citation non trouvée')
+        }
+        await quote.deleteOne()
+        res.status(200).json({message: "citation supprimée"})
+    } catch (error) {
+        console.error("erreur de suppression", error)
+        res.status(500).json({message: error.message})
+    }
+}
+
+export const updateQuote = async (req, res) => {
+    try {
+        const quote = await Quote.findById(req.params.id)
+        if(!quote){
+            res.status(404)
+            throw new Error('citation non trouvée')
+        }
+
+        const updatedQuote = await Quote.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators:true } 
+        )
+        res.status(200).json(updatedQuote)
+    } catch (error) {
+        console.error("erreur de mise à jour", error)
+        res.status(500).json({message: error.message})
+    }
 }
