@@ -7,5 +7,6 @@ const router = express.Router();
     //route, controller -> la fonction qui vient du controller
 router.get("/", getRandomQuote)
 
+router.post("/", createQuote)
 
 export default router;
