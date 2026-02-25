@@ -12,7 +12,7 @@ Cela signifie donc que le code est bien exécuté côté SERVEUR.
 - **Framework** : Express.js
 - **Base de données** : MongoDB (via Mongoose)
 - **Authentification** : JSON Web Tokens (jsonwebtoken), bcryptjs pour le hachage
-- **Varaibles d'environnement** : Dotenv
+- **Variables d'environnement** : Dotenv
 
 ## Mise en place de l'environnement de travail
 
@@ -26,12 +26,12 @@ Cette commande va créer un fichier package.json
 Le package.json, contient des infos IMPORTANTES sur votre projet :
 - le nom du projet
 - le type de code utilisé (commonjs / ecma script (ES))
-- Kes scripts du projet ( pour pouvoir le lancer, effectuer des tests, le déployer, etc)
+- Les scripts du projet ( pour pouvoir le lancer, effectuer des tests, le déployer, etc)
 - les dépendances du projet
 
 #### les dépendances, c'est quoi ?
 
-Pour fonctionner, le projet à besoin de certaines choses.
+Pour fonctionner, le projet a besoin de certaines choses.
 Dans le cas d'un projet avec express, il a besoin du framework express.
 Si vous avez besoin de hacher les mot de passe , vous allez avoir besoin de la dépendance bcryptjs, etc..
 
@@ -53,12 +53,12 @@ Les deux commandes sont similaires. vous pouvez utiliser l'une ou l'autre, sacha
 - `npm i mongoose` : Permet de faire la connexion à la base de données mongoDB et de gérer les requêtes (CRUD).
 - `npm i jsonwebtoken` : Permet de gérer un token d'authentification unique
 - `npm i bcryptjs` : Permet de gérer les hash de mot de passe
-- `npm i detenv` : Permet de gérer les varaibles d'environnement
+- `npm i dotenv` : Permet de gérer les variables d'environnement
 
 #### Une variable d'environnement, c'est quoi ?
 
 Une variable d'environnement est une donnée qui est potentiellement sensible.
-En gros c'est: un mote de passe, une phrase secrète, des accès à une base de données, etc.
+En gros c'est : un mot de passe, une phrase secrète, des accès à une base de données, etc.
 Ou tout simplement des variables qui servent à de la configuration pour votre app.
 
 Sur nos webapp, les variables d'environnement sont créées dans un fichier `.env`
@@ -72,15 +72,15 @@ DBUSER=userquitue
 DBPASS=monpasspourri
 ```
 
-**IMPORTANT** : le fichier de variable d'environnment DOIT ABSOLUMENT être noté dans le fichier `.gitignore`
+**IMPORTANT** : le fichier de variable d'environnement DOIT ABSOLUMENT être noté dans le fichier `.gitignore`
 
-On n'envoi JAMAIS un fichier de variables d'environnement sur un GIThub.
+On n'envoie JAMAIS un fichier de variables d'environnement sur un GIThub.
 
 Ce fichier doit contenir la structure attendue pour vos variables d'environnement.
 
 exemple:
 ```
-HOST=# nom d'hote pour la bdd
+HOST=# nom d'hôte pour la bdd
 DBNAME=# nom de la bdd
 DBUSER=# utilisateur de la bdd
 DBPASS=# le pass de la bdd
@@ -91,10 +91,10 @@ DBPASS=# le pass de la bdd
 ```text
     src/
         config/
-            - db.js                   # Connexion a MongoDB
+            - db.js                   # Connexion à MongoDB
         controllers/                  # La logique de code de votre app
             - authController.js
-        middlewares/                  # Tout ce qui s'execute avant un controller
+        middlewares/                  # Tout ce qui s'exécute avant un controller
             - authMiddlewares.js
         models/                       # Config des schémas de bdd
             - authModel.js
@@ -113,25 +113,25 @@ DBPASS=# le pass de la bdd
 
 - **C'est quoi** C'est le point d'entrée de votre API. Les routes définissent les URL ou endpoints accessibles par les utilisateurs (ex : `GET /api/quotes` ou `POST /api/auth/login`).
 
-- **Leur rôle :** Lorsqu'une personne (ou le frontend) fait une requête vers votre API, la route recoit cet appel, comrpend que l'utilisateur veut faire, et dirige l'appel vers le bon **Controller**. Une route ne contient aucune logique compelxe, elle se contente de transférer la demande à la bonne personne.
+- **Leur rôle :** Lorsqu'une personne (ou le frontend) fait une requête vers votre API, la route reçoit cet appel, comprend que l'utilisateur veut faire, et dirige l'appel vers le bon **Controller**. Une route ne contient aucune logique complexe, elle se contente de transférer la demande à la bonne personne.
 
 ### Les models
 
-- **C'est quoi ?** Le model est la représentation structurelle de vos données en code. Il fait le lien (grace a Mongoose) avec la base de donnees MongoDB.
-- **Son rôle :** Il définit le schéma de vos donnée. c'est lui qui décide qu'un utilisateur doit avoir un email, par exemple (de type chaine de caractere, défini comme obligatoire et unique). C'est le modèle qui se charge faire toutes les actions d'écriture et de lecture directes dans la base de données (le fameux CRUD).
+- **C'est quoi ?** Le model est la représentation structurelle de vos données en code. Il fait le lien (grâce à Mongoose) avec la base de données MongoDB.
+- **Son rôle :** Il définit le schéma de vos données. C'est lui qui décide qu'un utilisateur doit avoir un email, par exemple (de type chaîne de caractère, défini comme obligatoire et unique). C'est le modèle qui se charge faire toutes les actions d'écriture et de lecture directes dans la base de données (le fameux CRUD).
 
 ### Les controllers : Le cerveau / le manageur
 
 - **C'est quoi ?** C'est ici que se trouve la logique métier de votre application.
-- **Son rôle :** Le controller recoit la demande transmise par la route. C'est lui qui dait le travail. il Lit les infos envoyées par l'utilisateur (le body), il demande au **model** d'intéragir avec la base de données, puis **prépare et renvoie la réponse** finale à l'utilisateur au format JSON en gérant les différents cas de succès ou d'erreurs.
+- **Son rôle :** Le controller reçoit la demande transmise par la route. C'est lui qui doit le travail. Il lit les infos envoyées par l'utilisateur (le body), il demande au **model** d'interagir avec la base de données, puis **prépare et renvoie la réponse** finale à l'utilisateur au format JSON en gérant les différents cas de succès ou d'erreurs.
 
 ### Les Middlewares : La douane / le vigile
 
-- **C'est quoi ?** C'est une fonction qui s'execute **au milieu** (middle) de la requete.
-Elle à lieu juste apres que la route ait été appelée, mais juste avant que la requete n'arrive finalement dans le controller.
-- **Son rôle :** Il effectuedes vérifications à la volée. l'exemple le plus courant en API est le **middleware d'authentification** : il vérifie qu'un utilisateur possède un token valide (la "carte d'identité") avant de le laisser accéder à des informations privées.
-S'il n'a pas son ticket, la douane  bloque tout et renvoie une erreur (401- acces refusé)
-Si tout va bien, il appel une fonction `next()` qui laisse passer la requete vers le controller.
+- **C'est quoi ?** C'est une fonction qui s'exécute **au milieu** (middle) de la requête.
+Elle a lieu juste après que la route ait été appelée, mais juste avant que la requête n'arrive finalement dans le controller.
+- **Son rôle :** Il effectue des vérifications à la volée. L'exemple le plus courant en API est le **middleware d'authentification** : il vérifie qu'un utilisateur possède un token valide (la "carte d'identité") avant de le laisser accéder à des informations privées.
+S'il n'a pas son ticket, la douane bloque tout et renvoie une erreur (401- accès refusé)
+Si tout va bien, il appelle une fonction `next()` qui laisse passer la requête vers le controller.
 
 ## résumé des commandes pour un nouveau projet et configuration
 
@@ -145,7 +145,7 @@ npm i bcryptjs
 npm i dotenv
 ```
 
-vous pouvez installer tout en une seule fois, apres `npm init` :
+vous pouvez installer tout en une seule fois, après `npm init` :
 `npm i express mongoose jsonwebtoken bcryptjs dotenv`
 
 ### Configuration
@@ -154,12 +154,12 @@ Ouvrir le fichier package.json, et faire en sorte d'avoir la ligne `"type" : "mo
 
 ### Petite astuce
 
-Lorque vous allez démarrer votre serveur avec la commande `node serveur` ou `npm run dev`
+Lorsque vous allez démarrer votre serveur avec la commande `node serveur` ou `npm run dev`
 si vous avez configuré le script. votre serveur sera lancé et figé à l'état du lancement.
 
-ce qui signifie, que si vous effectuez une mofification sur votre code, vous allez devoir couper le serveur et le relancer. ce qui peut être pénible.
+ce qui signifie, que si vous effectuez une modification sur votre code, vous allez devoir couper le serveur et le relancer. ce qui peut être pénible.
 
 Pour éviter cette manip, vous pouvez installer de manière globale l'outil nodemon.
-Pour cela, vous le faite UNE SEULE FOIS sur votre machine : `npm i -g nodemon`.
+Pour cela, vous le faites UNE SEULE FOIS sur votre machine : `npm i -g nodemon`.
 
 Cette fois ci, au lieu de lancer votre serveur avec `node serveur`, vous allez le lancer avec `nodemon server`. Ce qui aura pour effet, qu'a chaque modification de votre code, le serveur se recharge automatiquement.
