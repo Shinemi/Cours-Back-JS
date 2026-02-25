@@ -106,3 +106,60 @@ DBPASS=# le pass de la bdd
 - package.json
 - server.js                           # Point d'entrée de l'app
 ```
+
+## Rôle de chaque dossiers
+
+### Les routes : le standard téléphonique / l'aiguilleur
+
+- **C'est quoi** C'est le point d'entrée de votre API. Les routes définissent les URL ou endpoints accessibles par les utilisateurs (ex : `GET /api/quotes` ou `POST /api/auth/login`).
+
+- **Leur rôle :** Lorsqu'une personne (ou le frontend) fait une requête vers votre API, la route recoit cet appel, comrpend que l'utilisateur veut faire, et dirige l'appel vers le bon **Controller**. Une route ne contient aucune logique compelxe, elle se contente de transférer la demande à la bonne personne.
+
+### Les models
+
+- **C'est quoi ?** Le model est la représentation structurelle de vos données en code. Il fait le lien (grace a Mongoose) avec la base de donnees MongoDB.
+- **Son rôle :** Il définit le schéma de vos donnée. c'est lui qui décide qu'un utilisateur doit avoir un email, par exemple (de type chaine de caractere, défini comme obligatoire et unique). C'est le modèle qui se charge faire toutes les actions d'écriture et de lecture directes dans la base de données (le fameux CRUD).
+
+### Les controllers : Le cerveau / le manageur
+
+- **C'est quoi ?** C'est ici que se trouve la logique métier de votre application.
+- **Son rôle :** Le controller recoit la demande transmise par la route. C'est lui qui dait le travail. il Lit les infos envoyées par l'utilisateur (le body), il demande au **model** d'intéragir avec la base de données, puis **prépare et renvoie la réponse** finale à l'utilisateur au format JSON en gérant les différents cas de succès ou d'erreurs.
+
+### Les Middlewares : La douane / le vigile
+
+- **C'est quoi ?** C'est une fonction qui s'execute **au milieu** (middle) de la requete.
+Elle à lieu juste apres que la route ait été appelée, mais juste avant que la requete n'arrive finalement dans le controller.
+- **Son rôle :** Il effectuedes vérifications à la volée. l'exemple le plus courant en API est le **middleware d'authentification** : il vérifie qu'un utilisateur possède un token valide (la "carte d'identité") avant de le laisser accéder à des informations privées.
+S'il n'a pas son ticket, la douane  bloque tout et renvoie une erreur (401- acces refusé)
+Si tout va bien, il appel une fonction `next()` qui laisse passer la requete vers le controller.
+
+## résumé des commandes pour un nouveau projet et configuration
+
+### résumé
+```
+npm init
+npm i express
+npm i mongoose
+npm i jsonwebtoken
+npm i bcryptjs
+npm i dotenv
+```
+
+vous pouvez installer tout en une seule fois, apres `npm init` :
+`npm i express mongoose jsonwebtoken bcryptjs dotenv`
+
+### Configuration
+
+Ouvrir le fichier package.json, et faire en sorte d'avoir la ligne `"type" : "module"`
+
+### Petite astuce
+
+Lorque vous allez démarrer votre serveur avec la commande `node serveur` ou `npm run dev`
+si vous avez configuré le script. votre serveur sera lancé et figé à l'état du lancement.
+
+ce qui signifie, que si vous effectuez une mofification sur votre code, vous allez devoir couper le serveur et le relancer. ce qui peut être pénible.
+
+Pour éviter cette manip, vous pouvez installer de manière globale l'outil nodemon.
+Pour cela, vous le faite UNE SEULE FOIS sur votre machine : `npm i -g nodemon`.
+
+Cette fois ci, au lieu de lancer votre serveur avec `node serveur`, vous allez le lancer avec `nodemon server`. Ce qui aura pour effet, qu'a chaque modification de votre code, le serveur se recharge automatiquement.
