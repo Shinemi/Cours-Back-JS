@@ -1,5 +1,5 @@
 import express from 'express'
-import { createQuote, deleteQuote, getAllQuotes, getRandomQuote, updateQuote } from '../controllers/quoteController.js'
+import { createQuote, deleteQuote, getAiQuote, getAllQuotes, getRandomQuote, updateQuote } from '../controllers/quoteController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
@@ -7,6 +7,8 @@ const router = express.Router()
 router.get('/', getRandomQuote)
 
 router.get('/all', getAllQuotes)
+
+router.get('/aiquote', getAiQuote)
 
 //          route, middleware, encoreMiddleware, etc, séparé par virgule, 
 //                                                  à la fin c'est le CONTROLLER
