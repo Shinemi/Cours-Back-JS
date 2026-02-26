@@ -1,5 +1,6 @@
 import Quote from '../models/quoteModel.js'
 
+// Citations par défaut utilisées si la base de données est vide
 const defaultQuote = [
     {quote:'le succes est la somme de petits efforts répétés jour après jour' ,author :"Albert Einstein"},
     {quote:"il n'y a qu'une facon d'échouer : ne pas essayer",author :"Albert Einstein"},
@@ -7,20 +8,20 @@ const defaultQuote = [
     {quote:"ne revez pas que ça arrive, faites que ça arrive",author :"Albert Einstein" },
 ]
 
-
-
+// Récupérer une citation aléatoire (avec fallback sur les citations par défaut)
 export const getRandomQuote = async (req, res) => {
     try{
-
-        //countDocuments() -> pour compter le nombre d'entrées dans la base de données
+        // countDocuments() retourne le nombre total de citations dans la base
         const count = await Quote.countDocuments()
-        // la bdd est vide, on retourne une citation au hasard qui est enregistrée en dur
+        
+        // Si la base est vide, retourner une citation par défaut aléatoirement
         if(count === 0){
             const randomIndex = Math.floor(Math.random() * defaultQuote.length)
             return res.status(200).json(defaultQuote[randomIndex])
         }
         
-        //sinon récupérer une citation au hasard dans la base de données
+        // Sinon, récupérer une citation aléatoire de la base avec skip(random)
+        // skip() saute les N premiers documents, ce qui permet de sélectionner aléatoirement
         const random = Math.floor(Math.random() * count)
         const quote = await Quote.findOne().skip(random)
         res.status(200).json(quote)
@@ -48,7 +49,7 @@ export const createQuote = async (req, res) => {
 
 export const deleteQuote = async (req, res) => {
     try {
-        //on récup l'id des parametres de l'url
+        // Récupérer l'ID depuis les paramètres d'URL (/quotes/:id)
         const quote = await Quote.findById(req.params.id)
         if(!quote){
             res.status(404)
@@ -70,6 +71,9 @@ export const updateQuote = async (req, res) => {
             throw new Error('citation non trouvée')
         }
 
+        // Mise à jour avec options: 
+        // - { new: true } retourne le document mis à jour (sinon retourne l'ancien)
+        // - { runValidators: true } vérifie les validations du schéma MongoDB
         const updatedQuote = await Quote.findByIdAndUpdate(
             req.params.id,
             req.body,

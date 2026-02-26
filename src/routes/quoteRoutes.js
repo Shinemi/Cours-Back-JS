@@ -3,16 +3,19 @@ import { createQuote, deleteQuote, getAllQuotes, getRandomQuote, updateQuote } f
 import { get } from "mongoose";
 
 const router = express.Router();
-//on va pouvoir gérer les routes
-         //la route / middleware (si on utilise), controller
-    //route, controller -> la fonction qui vient du controller
+
+// GET / - Retourner une citation aléatoire
 router.get("/", getRandomQuote)
+// GET /all - Retourner TOUTES les citations de la base
 router.get("/all", getAllQuotes)
 
+// POST / - Créer une nouvelle citation
 router.post("/", createQuote)
 
+// DELETE /:id - Supprimer une citation par son ID
 router.delete("/:id", deleteQuote)
 
+// PUT /:id - Mettre à jour une citation existante
 router.put("/:id", updateQuote)
 
 
