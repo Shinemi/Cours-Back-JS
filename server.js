@@ -1,13 +1,14 @@
 import process from 'process'
 import app from './src/app.js'
 import connectDB from './src/config/db.js'
+import { setServers } from "node:dns/promises";
+setServers(["1.1.1.1", "8.8.8.8"]);
 
-// Établir la connexion MongoDB dès le démarrage du serveur
+// Connexion à la BDD MongoDB
 connectDB()
 
-// Récupérer le port depuis les variables d'environnement, sinon utiliser 5000 par défaut
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT,() =>{
-    console.log(`serveur lancé sur http://localhost:${PORT}`)
+app.listen(PORT, () => {
+    console.log(`Serveur lancé sur http://localhost:${PORT}`)
 })

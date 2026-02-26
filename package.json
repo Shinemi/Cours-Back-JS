@@ -1,19 +1,11 @@
 {
-  "name": "back-js",
+  "name": "backjs",
   "version": "1.0.0",
-  "description": "Javascript vous permet de faire des sites / app coté front.\r Il existe un outil qui vous permet d'utiliser vos compétences JS pour créer des projets BACK",
-  "homepage": "https://github.com/Shinemi/Cours-Back-JS#readme",
-  "bugs": {
-    "url": "https://github.com/Shinemi/Cours-Back-JS/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Shinemi/Cours-Back-JS.git"
-  },
+  "description": "JavaScript vous permet de faire des sites/app côté front.\r Cependant, il existe un outil qui vous permet d'utiliser vos compétences JS\r pour créer des projets BACK.",
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,7 +15,6 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongodb": "^7.1.0",
     "mongoose": "^9.2.2"
   }
 }

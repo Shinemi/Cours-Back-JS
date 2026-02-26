@@ -1,23 +1,20 @@
-import express from "express";
-import { createQuote, deleteQuote, getAllQuotes, getRandomQuote, updateQuote } from "../controllers/quoteControllers.js";
-import { get } from "mongoose";
+import express from 'express'
+import { createQuote, deleteQuote, getAllQuotes, getRandomQuote, updateQuote } from '../controllers/quoteController.js'
+import { protect } from '../middlewares/authMiddleware.js'
 
-const router = express.Router();
+const router = express.Router()
 
-// GET / - Retourner une citation aléatoire
-router.get("/", getRandomQuote)
-// GET /all - Retourner TOUTES les citations de la base
-router.get("/all", getAllQuotes)
+router.get('/', getRandomQuote)
 
-// POST / - Créer une nouvelle citation
-router.post("/", createQuote)
+router.get('/all', getAllQuotes)
 
-// DELETE /:id - Supprimer une citation par son ID
-router.delete("/:id", deleteQuote)
+//          route, middleware, encoreMiddleware, etc, séparé par virgule, 
+//                                                  à la fin c'est le CONTROLLER
+router.post('/', protect, createQuote)
 
-// PUT /:id - Mettre à jour une citation existante
-router.put("/:id", updateQuote)
+router.delete('/:id', protect, deleteQuote)
+
+router.put('/:id', protect, updateQuote)
 
 
-
-export default router;
+export default router

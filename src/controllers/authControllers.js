@@ -51,3 +51,37 @@ export const registerUser = async (req, res, next) => {
 
 }
 //fonction pour connecter un utilisateur
+export const loginUser = async (req, res) => {
+    try {
+        if(!req.body){
+            res.status(400).json({message: "veuillez entrer des données"})  
+        }
+
+        const { email, password } = req.body 
+
+        if(!email || !password){
+            res.status(400)
+            throw new Error('veuillez entrer un email et un mot de passe')
+        }    
+
+        //vérifer l'email, un utilise +password car on a select: false dans le model
+        const user = await User.findOne({email}).select('+password')
+
+        //vérifier le mot de passe
+        if (user && (await user.matchPassword(password))){
+            returnres.json({
+                _id: user._id,
+                email: user.email,
+                // Générer un token JWT que le client stockera (localStorage, cookies, etc.)
+                token: generateToken(user._id)
+            })
+
+        }
+        res.status(401)
+        throw new Error("email ou mot de passe incorrect")
+    } catch (error) {
+        console.error('connexion impossible :', error)
+        return res.status(500).json({message: error.message})
+    }
+
+}
